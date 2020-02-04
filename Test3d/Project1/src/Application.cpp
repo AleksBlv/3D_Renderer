@@ -59,7 +59,7 @@ int main(void)
 
     Loader loader;
     Renderer renderer;
-
+    loader.loadObj("res/models/stall.obj");
     Model* model;
     model = loader.loadToVAO(v, ind, tex);
     Texture texture("res/textures/cat.png");

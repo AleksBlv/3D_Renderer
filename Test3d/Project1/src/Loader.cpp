@@ -1,6 +1,8 @@
 #include "Loader.h"
 #include <Renderer.h>
 #include <iostream>
+#include <string>
+#include <fstream>
 
 Model* Loader::loadToVAO(std::vector<float>& verteces, std::vector<int>& indices, std::vector<float>& textures)
 {
@@ -27,6 +29,29 @@ Model* Loader::loadObj(const GLchar* fPath)
 	//	char lineHeader[512];
 
 	//}
+	std::string str;
+	std::ifstream file(fPath);
+
+	while (std::getline(file, str))
+	{
+		if (str.substr(0, 2) == "v ")
+		{
+
+		}
+		else if (str.substr(0, 2) == "vt")
+		{
+
+		}
+		else if (str.substr(0, 2) == "vn")
+		{
+
+		}
+		else if (str.substr(0, 2) == "f ")
+		{
+
+		}
+	}
+
 
 	return nullptr;
 }
