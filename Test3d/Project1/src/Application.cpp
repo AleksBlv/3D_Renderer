@@ -62,12 +62,12 @@ int main(void)
 
     Model* model;
     model = loader.loadToVAO(v, ind, tex);
-    Texture texture("src/res/textures/cat.png");
+    Texture texture("res/textures/cat.png");
     model->setTexture(&texture);
 
     ShaderProgram shader;
-    shader.loadShaders("src/Shaders/fragmentShader.txt", 
-        "src/Shaders/vertexShader.txt");
+    shader.loadShaders("Shaders/fragmentShader.txt", 
+        "Shaders/vertexShader.txt");
 
     FPSLocker lockFPS(60);
     /* Loop until the user closes the window */
