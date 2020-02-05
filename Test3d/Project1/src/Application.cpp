@@ -69,6 +69,8 @@ int main(void)
     shader.loadShaders("Shaders/fragmentShader.txt", 
         "Shaders/vertexShader.txt");
 
+    loader.loadObj("res/models/stall.obj");
+
     FPSLocker lockFPS(60);
     /* Loop until the user closes the window */
     while (!display.isCloseRequested())

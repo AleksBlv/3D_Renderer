@@ -4,6 +4,11 @@
 #include <vector>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include "tools/Tools.h"
+#include <iostream>
 
 
 class Loader
@@ -19,3 +24,4 @@ private:
 	GLuint createVAO();
 };
 
+void splitString(std::string str, char demiter, std::vector<std::string>& outStr);

@@ -1,11 +1,7 @@
 #include "Loader.h"
 #include <Renderer.h>
 
-#include <sstream>
-#include <fstream>
-#include <string>
-#include "tools/Tools.h"
-#include <iostream>
+
 
 Model* Loader::loadToVAO(std::vector<float>& verteces, std::vector<int>& indices, std::vector<float>& textures)
 {
@@ -60,6 +56,18 @@ Model* Loader::loadObj(const GLchar* fPath)
 		}
 		else if (str.substr(0, 2) == "f ")
 		{
+			std::vector < std::string> subStrings;
+			splitString(str, ' ', subStrings);
+			for (int i = 1; i < 4; i++)
+			{
+				int v, t, n;
+				std::vector < std::string> subSubStrings;
+				splitString(subStrings[i], '/', subSubStrings);
+				indices.push_back(std::stoi(subSubStrings[0]));
+				indices.push_back(std::stoi(subSubStrings[1]));
+				indices.push_back(std::stoi(subSubStrings[2]));
+			}
+
 
 		}
 	}
@@ -102,4 +110,16 @@ GLuint Loader::createVAO()
 	return vaoID;
 }
 
-
+void splitString(std::string str, char delimiter, std::vector<std::string>& outStr)
+{
+	if (!outStr.empty())
+	{
+		outStr.clear();
+	}
+	std::string token;
+	std::istringstream stream(str);
+	while (std::getline(stream, token, delimiter))
+	{
+		outStr.push_back(token);
+	}
+}
