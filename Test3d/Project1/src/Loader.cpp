@@ -1,8 +1,11 @@
 #include "Loader.h"
 #include <Renderer.h>
-#include <iostream>
-#include <string>
+
+#include <sstream>
 #include <fstream>
+#include <string>
+#include "tools/Tools.h"
+#include <iostream>
 
 Model* Loader::loadToVAO(std::vector<float>& verteces, std::vector<int>& indices, std::vector<float>& textures)
 {
@@ -17,34 +20,43 @@ Model* Loader::loadToVAO(std::vector<float>& verteces, std::vector<int>& indices
 
 Model* Loader::loadObj(const GLchar* fPath)
 {
-	
-	//FILE* file = fopen(fPath, "r");
-	//if (file == NULL) 
-	//{
-	//	std::cout << "Couldn't open file " << std::endl;
-	//	return nullptr;
-	//}
-	//while (true)
-	//{
-	//	char lineHeader[512];
-
-	//}
 	std::string str;
 	std::ifstream file(fPath);
+	
+	std::vector<Tools::Vec3f> vertices;
+	std::vector<Tools::Vec2f> textures;
+	std::vector<Tools::Vec3f> normals;
+	std::vector<int> indices;
 
 	while (std::getline(file, str))
 	{
 		if (str.substr(0, 2) == "v ")
 		{
+			std::istringstream v(str.substr(2));
+			Tools::Vec3f vert;
+			float x, y, z;
+			v >> x; v >> y; v >> z;
+			vert = Tools::Vec3f(x, y, z);
+			vertices.push_back(vert);
 
 		}
 		else if (str.substr(0, 2) == "vt")
 		{
-
+			std::istringstream v(str.substr(3));
+			Tools::Vec2f text;
+			float x, y;
+			v >> x; v >> y;
+			text = Tools::Vec2f(x, y);
+			textures.push_back(text);
 		}
 		else if (str.substr(0, 2) == "vn")
 		{
-
+			std::istringstream v(str.substr(3));
+			Tools::Vec3f norm;
+			float x, y, z;
+			v >> x; v >> y; v >> z;
+			norm = Tools::Vec3f(x, y, z);
+			normals.push_back(norm);
 		}
 		else if (str.substr(0, 2) == "f ")
 		{
