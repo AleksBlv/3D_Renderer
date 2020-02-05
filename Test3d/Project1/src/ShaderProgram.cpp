@@ -77,6 +77,16 @@ GLuint ShaderProgram::loadAndAttachShader(const GLchar* Path, int type)
 
 }
 
+void ShaderProgram::loadVec4(int location, float x, float y, float z, float alpha)
+{
+    glUniform4f(location, x, y, z, alpha);
+}
+
+void ShaderProgram::load1f(int location, float x)
+{
+    glUniform1f(location, x);
+}
+
 GLuint ShaderProgram::getProgID()
 {
 	return progID;

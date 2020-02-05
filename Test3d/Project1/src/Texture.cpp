@@ -20,8 +20,8 @@ Texture::Texture(const GLchar* filePath)
 
 	//грузим данные в видеопамять?
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, tWidth, tHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, localBuffer);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-
+	glBindTexture(GL_TEXTURE_2D, 0);
+	
 }
 
 Texture::~Texture()
