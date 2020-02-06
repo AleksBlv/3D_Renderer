@@ -15,7 +15,7 @@ class ShaderProgram
 {
 private:
 	GLuint progID;
-	int location_RotationMatrix;
+	int location_TransformationMatrix;
 public:
 	ShaderProgram();
 	void loadShaders(const GLchar* vPath, const GLchar* fPath);
@@ -31,6 +31,6 @@ public:
 	void loadVec3f(int location, glm::vec3 vec);
 	void load1f(int location, float x);
 	void loadMat4x4(int location, glm::mat4x4 matrix);
-	
+	void loadTransformationMatrix(glm::mat4x4 transforMatrix);
 };
 

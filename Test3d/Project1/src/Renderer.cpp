@@ -1,5 +1,7 @@
 #include "Renderer.h"
 
+
+
 void Renderer::prepare()
 {
 	glEnable(GL_DEPTH_TEST);
@@ -8,12 +10,16 @@ void Renderer::prepare()
 	
 }
 
-void Renderer::render(Model* model)
+void Renderer::render(Entity* entity, ShaderProgram* shader)
 {
+	Model* model = entity->getModel();
 	glBindVertexArray(model->getVAOID());
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 
+	glm::mat4x4* transformationMatrix = createTransformationMatrix(entity->getPosition(), entity->getRotX(),
+		entity->getRotY(), entity->getRotZ(), entity->getScale());
+	shader->loadTransformationMatrix(*transformationMatrix);
 	//glDrawArrays(GL_TRIANGLES, 0, model->getVertexCount());
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->getEBOID());
 	model->getTexture()->bind(0);

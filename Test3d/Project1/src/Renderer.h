@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Model.h"
+#include"Entity.h"
+#include "Matrices.h"
 #include <iostream>
 
 class Renderer
@@ -8,6 +10,6 @@ class Renderer
 public:
 
 	void prepare();
-	void render(Model* model);
+	void render(Entity* entity, ShaderProgram* shader);
 };
 
