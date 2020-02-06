@@ -4,6 +4,7 @@
 ShaderProgram::ShaderProgram()
 {
 	progID = glCreateProgram();
+    getAllUniformLocations();
 }
 
 void ShaderProgram::loadShaders(const GLchar* fPath, const GLchar* vPath)
@@ -77,9 +78,25 @@ GLuint ShaderProgram::loadAndAttachShader(const GLchar* Path, int type)
 
 }
 
+GLuint ShaderProgram::getUniformLocation(const GLchar* uniformName)
+{
+    return glGetUniformLocation(progID, uniformName);
+    
+}
+
+void ShaderProgram::getAllUniformLocations()
+{
+    location_RotationMatrix = getUniformLocation("rotation_matrix");
+}
+
 void ShaderProgram::loadVec4(int location, float x, float y, float z, float alpha)
 {
     glUniform4f(location, x, y, z, alpha);
+}
+
+void ShaderProgram::loadVec3f(int location, glm::vec3 vec)
+{
+    glUniform3f(location, vec.x, vec.y, vec.z);
 }
 
 void ShaderProgram::load1f(int location, float x)
