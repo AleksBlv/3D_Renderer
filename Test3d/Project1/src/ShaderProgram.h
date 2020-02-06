@@ -6,7 +6,9 @@
 #include <sstream>
 #include <iostream>
 #include "fromGit/glm/mat4x4.hpp"
+#include "fromGit/glm/vec3.hpp"
 #include "fromGit/glm/ext/matrix_transform.hpp"
+#include <fromGit/glm/gtc/type_ptr.hpp>
 
 
 class ShaderProgram
@@ -21,6 +23,7 @@ public:
 	void Stop();
 private:
 	GLuint loadAndAttachShader(const GLchar* Path, int type);
+public:
 	void loadVec4(int location, float x, float y, float z, float alpha);
 	void load1f(int location, float x);
 	void loadMat4x4(int location, glm::mat4x4 matrix);

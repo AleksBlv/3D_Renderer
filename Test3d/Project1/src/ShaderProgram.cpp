@@ -89,7 +89,7 @@ void ShaderProgram::load1f(int location, float x)
 
 void ShaderProgram::loadMat4x4(int location, glm::mat4x4 matrix)
 {
-    glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 GLuint ShaderProgram::getProgID()
