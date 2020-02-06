@@ -4,9 +4,9 @@
 ShaderProgram::ShaderProgram()
 {
 	progID = glCreateProgram();
-    Use();
+  /*  Use();
     getAllUniformLocations();
-    Stop();
+    Stop();*/
 }
 
 void ShaderProgram::loadShaders(const GLchar* fPath, const GLchar* vPath)
@@ -25,7 +25,7 @@ void ShaderProgram::loadShaders(const GLchar* fPath, const GLchar* vPath)
         glGetProgramInfoLog(progID, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }
-
+    getAllUniformLocations();
     glDeleteShader(vid);
     glDeleteShader(fid);
 
@@ -106,12 +106,13 @@ void ShaderProgram::load1f(int location, float x)
     glUniform1f(location, x);
 }
 
-void ShaderProgram::loadMat4x4(int location, glm::mat4x4 matrix)
+void ShaderProgram::loadMat4x4(int location, const GLfloat* matrix)
 {
-    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+    glUniformMatrix4fv(location, 1, GL_FALSE, matrix);
+    
 }
 
-void ShaderProgram::loadTransformationMatrix(glm::mat4x4 transformMatrix)
+void ShaderProgram::loadTransformationMatrix(const GLfloat* transformMatrix)
 {
     loadMat4x4(location_TransformationMatrix, transformMatrix);
 }

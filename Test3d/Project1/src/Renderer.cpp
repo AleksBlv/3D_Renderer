@@ -19,7 +19,7 @@ void Renderer::render(Entity* entity, ShaderProgram* shader)
 
 	glm::mat4x4* transformationMatrix = createTransformationMatrix(entity->getPosition(), entity->getRotX(),
 		entity->getRotY(), entity->getRotZ(), entity->getScale());
-	shader->loadTransformationMatrix(*transformationMatrix);
+	shader->loadTransformationMatrix(glm::value_ptr(*transformationMatrix));
 	//glDrawArrays(GL_TRIANGLES, 0, model->getVertexCount());
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->getEBOID());
 	model->getTexture()->bind(0);
