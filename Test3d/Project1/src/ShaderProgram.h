@@ -16,6 +16,7 @@ class ShaderProgram
 private:
 	GLuint progID;
 	int location_TransformationMatrix;
+	int location_ProjectionMatrix;
 public:
 	ShaderProgram();
 	void loadShaders(const GLchar* vPath, const GLchar* fPath);
@@ -32,6 +33,6 @@ public:
 	void load1f(int location, float x);
 	void loadMat4x4(int location, const GLfloat* matrix);
 	void loadTransformationMatrix(const GLfloat* transforMatrix);
-	
+	void loadProjectionMatrix(const GLfloat* projectionMatrix);
 };
 

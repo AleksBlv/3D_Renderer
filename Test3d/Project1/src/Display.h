@@ -17,6 +17,8 @@ public:
 	void update();
 	void close();
 	bool isCloseRequested();
+	int getWidth() { return WIDTH; }
+	int getHeight() { return HEIGHT; }
 private:
 	void createWindow();
 

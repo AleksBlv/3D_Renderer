@@ -4,9 +4,6 @@
 ShaderProgram::ShaderProgram()
 {
 	progID = glCreateProgram();
-  /*  Use();
-    getAllUniformLocations();
-    Stop();*/
 }
 
 void ShaderProgram::loadShaders(const GLchar* fPath, const GLchar* vPath)
@@ -89,6 +86,7 @@ GLuint ShaderProgram::getUniformLocation(const GLchar* uniformName)
 void ShaderProgram::getAllUniformLocations()
 {
     location_TransformationMatrix = getUniformLocation("transformation_matrix");
+    location_ProjectionMatrix = getUniformLocation("projection_matrix");
 }
 
 void ShaderProgram::loadVec4(int location, float x, float y, float z, float alpha)
@@ -115,6 +113,11 @@ void ShaderProgram::loadMat4x4(int location, const GLfloat* matrix)
 void ShaderProgram::loadTransformationMatrix(const GLfloat* transformMatrix)
 {
     loadMat4x4(location_TransformationMatrix, transformMatrix);
+}
+
+void ShaderProgram::loadProjectionMatrix(const GLfloat* projectionMatrix)
+{
+    loadMat4x4(location_ProjectionMatrix, projectionMatrix);
 }
 
 GLuint ShaderProgram::getProgID()

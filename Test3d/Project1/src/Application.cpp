@@ -57,7 +57,7 @@ int main(void)
     }
 
     Loader loader;
-    Renderer renderer;
+    
     loader.loadObj("res/models/stall.obj");
     Model* model;
     model = loader.loadToVAO(v, ind, tex);
@@ -69,8 +69,8 @@ int main(void)
         "Shaders/vertexShader.txt");
 
     loader.loadObj("res/models/stall.obj");
-    Entity entity(model, glm::vec3(0.5, 0.5, 0.0), 0, 0, 0, 1);
-    
+    Entity entity(model, glm::vec3(0.0, 0.0, -5.0), 0, 0, 0, 1);
+    Renderer renderer(&display, &shader);
 
     FPSLocker lockFPS(60);
     /* Loop until the user closes the window */
@@ -79,12 +79,7 @@ int main(void)
         lockFPS.fpsStart();
         shader.Use();
         entity.rotate(0, 0, 1);
-        //glm::mat4x4 m_rot(1.0f);
-        //m_rot = glm::translate(m_rot, glm::vec3(0.0f, 0.0f, 0.0f));
-        //m_rot = glm::rotate(m_rot, (GLfloat)glfwGetTime() * 1.0f, glm::vec3(1.0, 1.0, 1.0));
-        //m_rot = glm::scale(m_rot, glm::vec3(0.5f, 0.5f, 1.0f));
-        //int location = glGetUniformLocation(shader.getProgID(), "rotation_matrix");
-        //shader.loadMat4x4(location, glm::value_ptr(m_rot));
+        entity.move(0, 0, 0.001);
        
         renderer.prepare();
         renderer.render(&entity, &shader);
