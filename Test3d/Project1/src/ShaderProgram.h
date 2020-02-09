@@ -26,6 +26,8 @@ public:
 private:
 	GLuint loadAndAttachShader(const GLchar* Path, int type);
 	GLuint getUniformLocation(const GLchar* uniformName);
+	void bindAttributes();
+	void bindAttribute(int attrib,const GLchar* attribName);
 	void getAllUniformLocations();
 public:
 	void loadVec4(int location, float x, float y, float z, float alpha);

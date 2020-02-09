@@ -5,7 +5,7 @@ Texture::Texture(const GLchar* filePath)
 	: localBuffer(nullptr), tWidth(0), tHeight(0), tBBP(0), textureID(0)
 {
 	//грузим данные в буфер
-	stbi_set_flip_vertically_on_load(1);
+	//stbi_set_flip_vertically_on_load(1);
 	localBuffer = stbi_load(filePath, &tWidth, &tHeight, &tBBP, 4);
 
 	//создаем текстуру, получаем ее id

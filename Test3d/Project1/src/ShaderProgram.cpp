@@ -14,6 +14,7 @@ void ShaderProgram::loadShaders(const GLchar* fPath, const GLchar* vPath)
 
     vid = loadAndAttachShader(vPath, GL_VERTEX_SHADER);
     fid = loadAndAttachShader(fPath, GL_FRAGMENT_SHADER);
+    bindAttributes();
     glLinkProgram(progID);
 
     glGetProgramiv(progID, GL_LINK_STATUS, &success);
@@ -81,6 +82,18 @@ GLuint ShaderProgram::getUniformLocation(const GLchar* uniformName)
 {
     return glGetUniformLocation(progID, uniformName);
     
+}
+
+void ShaderProgram::bindAttributes()
+{
+    bindAttribute(0, "position");
+    bindAttribute(1, "texCoord");
+    bindAttribute(2, "normal");
+}
+
+void ShaderProgram::bindAttribute(int attrib,const GLchar* attribName)
+{
+    glBindAttribLocation(progID, attrib, attribName);
 }
 
 void ShaderProgram::getAllUniformLocations()

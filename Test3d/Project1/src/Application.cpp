@@ -58,19 +58,21 @@ int main(void)
 
     Loader loader;
     
-    loader.loadObj("res/models/stall.obj");
+    //loader.loadObj("res/models/stall.obj");
     Model* model;
-    model = loader.loadToVAO(v, ind, tex);
-    Texture texture("res/textures/cat.png");
+    //model = loader.loadToVAO(v, ind, tex);
+    model = loader.loadObj("res/models/stall.obj");
+    Texture texture("res/models/stallTexture.png");
     model->setTexture(&texture);
 
     ShaderProgram shader;
     shader.loadShaders("Shaders/fragmentShader.txt", 
         "Shaders/vertexShader.txt");
 
-    loader.loadObj("res/models/stall.obj");
-    Entity entity(model, glm::vec3(0.0, 0.0, -5.0), 0, 0, 0, 1);
+    //loader.loadObj("res/models/stall.obj");
+    Entity entity(model, glm::vec3(0.0, -3.0, -10.0), 0, 0, 0, 1);
     Renderer renderer(&display, &shader);
+
 
     FPSLocker lockFPS(60);
     /* Loop until the user closes the window */
@@ -78,8 +80,8 @@ int main(void)
     {
         lockFPS.fpsStart();
         shader.Use();
-        entity.rotate(0, 0, 1);
-        entity.move(0, 0, 0.001);
+        entity.rotate(0, 1, 0);
+        //entity.move(0, 0, 0.001);
        
         renderer.prepare();
         renderer.render(&entity, &shader);

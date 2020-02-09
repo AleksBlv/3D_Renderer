@@ -3,12 +3,13 @@
 
 
 
-Model* Loader::loadToVAO(std::vector<float>& verteces, std::vector<int>& indices, std::vector<float>& textures)
+Model* Loader::loadToVAO(std::vector<float>& verteces, std::vector<int>& indices, std::vector<float>& textures, std::vector<float>& normals)
 {
 	GLuint vaoID = createVAO();
 	GLuint eboID = bindIndices(indices);
 	storeDataInVAO(0, 3, verteces);
 	storeDataInVAO(1, 2, textures);
+	storeDataInVAO(2, 3, normals);
 	unbindVAO();
 	Model* model = new Model(vaoID, eboID, indices.size());
 	return model;
@@ -23,6 +24,11 @@ Model* Loader::loadObj(const GLchar* fPath)
 	std::vector<Tools::Vec2f> textures;
 	std::vector<Tools::Vec3f> normals;
 	std::vector<int> indices;
+	std::vector<float> dataVertices;
+	std::vector<float> dataTextures;
+	std::vector<float> dataNormals;
+	std::vector<int> dataIndices;
+	
 
 	while (std::getline(file, str))
 	{
@@ -56,24 +62,46 @@ Model* Loader::loadObj(const GLchar* fPath)
 		}
 		else if (str.substr(0, 2) == "f ")
 		{
-			std::vector < std::string> subStrings;
-			splitString(str, ' ', subStrings);
-			for (int i = 1; i < 4; i++)
-			{
-				int v, t, n;
-				std::vector < std::string> subSubStrings;
-				splitString(subStrings[i], '/', subSubStrings);
-				indices.push_back(std::stoi(subSubStrings[0]));
-				indices.push_back(std::stoi(subSubStrings[1]));
-				indices.push_back(std::stoi(subSubStrings[2]));
-			}
-
-
+			dataTextures.resize(vertices.size() * 2);
+			dataNormals.resize(vertices.size() * 3);
+			break;
 		}
 	}
 
+	while (std::getline(file, str))
+	{
+		if (str.substr(0, 2) != "f ")
+		{
+			continue;
+		}
+		std::vector < std::string> subStrings;
+		splitString(str, ' ', subStrings);
+		std::vector < std::string> subSubStrings;
+		for (int i = 1; i < 4; i++)
+		{
+			splitString(subStrings[i], '/', subSubStrings);
+			processData(subSubStrings, indices, textures, normals, dataTextures, dataNormals);
+		}
 
-	return nullptr;
+	}
+
+	dataVertices.resize(vertices.size() * 3);
+	dataIndices.resize(indices.size());
+
+	int vertexPointer = 0;
+	for (Tools::Vec3f vertex : vertices)
+	{
+		dataVertices[vertexPointer++] = vertex.x;
+		dataVertices[vertexPointer++] = vertex.y;
+		dataVertices[vertexPointer++] = vertex.z;
+	}
+
+	for (int i = 0; i < indices.size(); i++)
+	{
+		dataIndices[i] = indices[i];
+	}
+
+	return loadToVAO(dataVertices, dataIndices, dataTextures, dataNormals);
 }
 
 void Loader::storeDataInVAO(int attributePointer, int coordinateSize, std::vector<float>& data)
@@ -122,4 +150,18 @@ void splitString(std::string str, char delimiter, std::vector<std::string>& outS
 	{
 		outStr.push_back(token);
 	}
+}
+
+void processData(std::vector<std::string> vertexData, std::vector<int>& indices, std::vector<Tools::Vec2f>& textures, std::vector<Tools::Vec3f>& normals,
+	std::vector<float>& dataTextures, std::vector<float>& dataNormals)
+{
+	int currentVertexPointer = std::stoi(vertexData[0]) - 1;
+	indices.push_back(currentVertexPointer);
+	Tools::Vec2f curretntTex = textures[std::stoi(vertexData[1]) - 1];
+	dataTextures[currentVertexPointer * 2] = curretntTex.x;
+	dataTextures[currentVertexPointer * 2 + 1] = 1 - curretntTex.y;
+	Tools::Vec3f currentNorm = normals[std::stoi(vertexData[2]) - 1];
+	dataNormals[currentVertexPointer * 3] = currentNorm.x;
+	dataNormals[currentVertexPointer * 3 + 1] = currentNorm.y;
+	dataNormals[currentVertexPointer * 3 + 2] = currentNorm.z;
 }

@@ -20,7 +20,7 @@ Renderer::Renderer(Display* display, ShaderProgram * shader)
 void Renderer::prepare()
 {
 	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.0, 0.5, 0.5, 0.0);
+	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 }
@@ -31,11 +31,12 @@ void Renderer::render(Entity* entity, ShaderProgram* shader)
 	glBindVertexArray(model->getVAOID());
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 
 	glm::mat4x4* transformationMatrix = createTransformationMatrix(entity->getPosition(), entity->getRotX(),
 		entity->getRotY(), entity->getRotZ(), entity->getScale());
 	shader->loadTransformationMatrix(glm::value_ptr(*transformationMatrix));
-
+	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->getEBOID());
 
 	model->getTexture()->bind(0);
@@ -43,5 +44,7 @@ void Renderer::render(Entity* entity, ShaderProgram* shader)
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 	glBindVertexArray(0);
+	delete transformationMatrix;
 }
