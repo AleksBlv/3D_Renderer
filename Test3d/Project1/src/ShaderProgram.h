@@ -9,6 +9,7 @@
 #include "fromGit/glm/vec3.hpp"
 #include "fromGit/glm/ext/matrix_transform.hpp"
 #include <fromGit/glm/gtc/type_ptr.hpp>
+#include "Camera.h"
 
 
 class ShaderProgram
@@ -17,6 +18,7 @@ private:
 	GLuint progID;
 	int location_TransformationMatrix;
 	int location_ProjectionMatrix;
+	int location_ViewMatrix;
 public:
 	ShaderProgram();
 	void loadShaders(const GLchar* vPath, const GLchar* fPath);
@@ -36,5 +38,6 @@ public:
 	void loadMat4x4(int location, const GLfloat* matrix);
 	void loadTransformationMatrix(const GLfloat* transforMatrix);
 	void loadProjectionMatrix(const GLfloat* projectionMatrix);
+	void loadViewMatrix(Camera* camera);
 };
 
