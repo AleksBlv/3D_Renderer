@@ -72,15 +72,17 @@ int main(void)
     //loader.loadObj("res/models/stall.obj");
     Entity entity(model, glm::vec3(0.0, -3.0, -10.0), 0, 0, 0, 1);
     Renderer renderer(&display, &shader);
-
+    Camera camera(display.getWindow(), glm::vec3(0.0, 0.0, 0.0));
 
     FPSLocker lockFPS(60);
     /* Loop until the user closes the window */
     while (!display.isCloseRequested())
     {
         lockFPS.fpsStart();
+        camera.move();
         shader.Use();
-        entity.rotate(0, 1, 0);
+        shader.loadViewMatrix(&camera);
+        //entity.rotate(0, 1, 0);
         //entity.move(0, 0, 0.001);
        
         renderer.prepare();
@@ -88,6 +90,7 @@ int main(void)
         display.update();
         shader.Stop();
         lockFPS.fpsWait();
+        
     }
     display.close();
 

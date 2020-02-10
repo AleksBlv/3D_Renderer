@@ -11,6 +11,8 @@ void Renderer::createProjectionMatrix()
 Renderer::Renderer(Display* display, ShaderProgram * shader)
 {
 	this->display = display;
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 	createProjectionMatrix();
 	shader->Use();
 	shader->loadProjectionMatrix(glm::value_ptr(*projectionMatrix));

@@ -1,4 +1,5 @@
 #include "ShaderProgram.h"
+#include "Matrices.h"
 
 
 ShaderProgram::ShaderProgram()
@@ -100,6 +101,7 @@ void ShaderProgram::getAllUniformLocations()
 {
     location_TransformationMatrix = getUniformLocation("transformation_matrix");
     location_ProjectionMatrix = getUniformLocation("projection_matrix");
+    location_ViewMatrix = getUniformLocation("view_matrix");
 }
 
 void ShaderProgram::loadVec4(int location, float x, float y, float z, float alpha)
@@ -132,6 +134,15 @@ void ShaderProgram::loadProjectionMatrix(const GLfloat* projectionMatrix)
 {
     loadMat4x4(location_ProjectionMatrix, projectionMatrix);
 }
+
+void ShaderProgram::loadViewMatrix(Camera* camera)
+{
+    glm::mat4x4* viewMatrix = createViewMatrix(camera);
+    loadMat4x4(location_ViewMatrix, glm::value_ptr(*viewMatrix));
+    delete viewMatrix;
+}
+
+
 
 GLuint ShaderProgram::getProgID()
 {

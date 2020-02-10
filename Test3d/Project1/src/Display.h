@@ -19,6 +19,7 @@ public:
 	bool isCloseRequested();
 	int getWidth() { return WIDTH; }
 	int getHeight() { return HEIGHT; }
+	GLFWwindow* getWindow() { return window; }
 private:
 	void createWindow();
 

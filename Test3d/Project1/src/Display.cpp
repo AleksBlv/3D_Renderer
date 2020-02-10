@@ -8,14 +8,13 @@ Display::Display(int width, int height,const char* title, int fpsLimit)
 	FPS_CAP = fpsLimit;
 	createWindow();
 	timer = glfwGetTime();
-	
+
 }
 
 void Display::update()
 {
 
 	glfwSwapBuffers(window);
-	
 	glfwPollEvents();
 }
 
@@ -52,4 +51,5 @@ void Display::createWindow()
 	glfwGetFramebufferSize(window, &WIDTH, &HEIGHT);
 	glViewport(0,0,WIDTH, HEIGHT);
 	glfwSwapInterval(1);
+	
 }
