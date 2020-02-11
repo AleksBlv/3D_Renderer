@@ -102,6 +102,8 @@ void ShaderProgram::getAllUniformLocations()
     location_TransformationMatrix = getUniformLocation("transformation_matrix");
     location_ProjectionMatrix = getUniformLocation("projection_matrix");
     location_ViewMatrix = getUniformLocation("view_matrix");
+    location_LightPosition = getUniformLocation("light_position");
+    location_LightColor = getUniformLocation("light_color");
 }
 
 void ShaderProgram::loadVec4(int location, float x, float y, float z, float alpha)
@@ -140,6 +142,12 @@ void ShaderProgram::loadViewMatrix(Camera* camera)
     glm::mat4x4* viewMatrix = createViewMatrix(camera);
     loadMat4x4(location_ViewMatrix, glm::value_ptr(*viewMatrix));
     delete viewMatrix;
+}
+
+void ShaderProgram::loadLight(Light* light)
+{
+    loadVec3f(location_LightPosition, light->getPosition());
+    loadVec3f(location_LightColor, light->getColor());
 }
 
 

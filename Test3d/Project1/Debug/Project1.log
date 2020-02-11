@@ -1,2 +1,20 @@
-﻿  Application.cpp
+﻿  Light.cpp
+  Camera.cpp
+  Entity.cpp
+  FPSLocker.cpp
+  Display.cpp
+  stb_image.cpp
+  Matrices.cpp
+  ShaderProgram.cpp
+  Renderer.cpp
+D:\Work\VisualStudioProjects\Test3d\Test3d\Project1\src\Renderer.cpp(25,33): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+  Loader.cpp
+D:\Work\VisualStudioProjects\Test3d\Test3d\Project1\src\Loader.cpp(99,20): warning C4018: '<': signed/unsigned mismatch
+  Model.cpp
+  Application.cpp
+  Texture.cpp
+  Generating Code...
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'D:\Work\VisualStudioProjects\Test3d\Test3d\Debug\vc120.pdb'; linking object as if no debug info
   Project1.vcxproj -> D:\Work\VisualStudioProjects\Test3d\Test3d\Debug\Test3D.exe

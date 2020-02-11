@@ -22,7 +22,7 @@ Renderer::Renderer(Display* display, ShaderProgram * shader)
 void Renderer::prepare()
 {
 	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glClearColor(0.2, 0.2, 0.2, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 }

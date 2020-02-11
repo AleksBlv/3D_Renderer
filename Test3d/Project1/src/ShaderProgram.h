@@ -10,6 +10,7 @@
 #include "fromGit/glm/ext/matrix_transform.hpp"
 #include <fromGit/glm/gtc/type_ptr.hpp>
 #include "Camera.h"
+#include "Light.h"
 
 
 class ShaderProgram
@@ -19,6 +20,8 @@ private:
 	int location_TransformationMatrix;
 	int location_ProjectionMatrix;
 	int location_ViewMatrix;
+	int location_LightPosition;
+	int location_LightColor;
 public:
 	ShaderProgram();
 	void loadShaders(const GLchar* vPath, const GLchar* fPath);
@@ -39,5 +42,6 @@ public:
 	void loadTransformationMatrix(const GLfloat* transforMatrix);
 	void loadProjectionMatrix(const GLfloat* projectionMatrix);
 	void loadViewMatrix(Camera* camera);
+	void loadLight(Light* light);
 };
 

@@ -61,8 +61,8 @@ int main(void)
     //loader.loadObj("res/models/stall.obj");
     Model* model;
     //model = loader.loadToVAO(v, ind, tex);
-    model = loader.loadObj("res/models/stall.obj");
-    Texture texture("res/models/stallTexture.png");
+    model = loader.loadObj("res/models/dragon.obj");
+    Texture texture("res/models/dragonTexture.png");
     model->setTexture(&texture);
 
     ShaderProgram shader;
@@ -73,7 +73,7 @@ int main(void)
     Entity entity(model, glm::vec3(0.0, -3.0, -10.0), 0, 0, 0, 1);
     Renderer renderer(&display, &shader);
     Camera camera(display.getWindow(), glm::vec3(0.0, 0.0, 0.0));
-
+    Light light(glm::vec3(0, 10, -50), glm::vec3(1, 1, 1));
     FPSLocker lockFPS(60);
     /* Loop until the user closes the window */
     while (!display.isCloseRequested())
@@ -82,7 +82,8 @@ int main(void)
         camera.move();
         shader.Use();
         shader.loadViewMatrix(&camera);
-        //entity.rotate(0, 1, 0);
+        shader.loadLight(&light);
+        entity.rotate(0, 1, 0);
         //entity.move(0, 0, 0.001);
        
         renderer.prepare();
