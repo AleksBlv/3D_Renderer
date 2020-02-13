@@ -9,6 +9,9 @@
 #include <string>
 #include "tools/Tools.h"
 #include <iostream>
+#include "fromGit/glm/vec2.hpp"
+#include "fromGit/glm/vec3.hpp"
+
 
 
 class Loader
@@ -26,5 +29,5 @@ private:
 };
 
 void splitString(std::string str, char demiter, std::vector<std::string>& outStr);
-void processData(std::vector<std::string> vertexData, std::vector<int>& indices, std::vector<Tools::Vec2f>& textures, std::vector<Tools::Vec3f>& normals,
+void processData(std::vector<int> vertexData, std::vector<int>& indices, std::vector<glm::vec2>& textures, std::vector<glm::vec3>& normals,
 	std::vector<float>& dataTextures, std::vector<float>& dataNormals);

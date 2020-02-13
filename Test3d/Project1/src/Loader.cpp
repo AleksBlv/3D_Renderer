@@ -17,91 +17,83 @@ Model* Loader::loadToVAO(std::vector<float>& verteces, std::vector<int>& indices
 
 Model* Loader::loadObj(const GLchar* fPath)
 {
-	std::string str;
-	std::ifstream file(fPath);
-	
-	std::vector<Tools::Vec3f> vertices;
-	std::vector<Tools::Vec2f> textures;
-	std::vector<Tools::Vec3f> normals;
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec2> textures;
+	std::vector<glm::vec3> normals;
 	std::vector<int> indices;
 	std::vector<float> dataVertices;
 	std::vector<float> dataTextures;
 	std::vector<float> dataNormals;
-	std::vector<int> dataIndices;
+
+	bool resized = false;
 	
-
-	while (std::getline(file, str))
-	{
-		if (str.substr(0, 2) == "v ")
-		{
-			std::istringstream v(str.substr(2));
-			Tools::Vec3f vert;
-			float x, y, z;
-			v >> x; v >> y; v >> z;
-			vert = Tools::Vec3f(x, y, z);
-			vertices.push_back(vert);
-
-		}
-		else if (str.substr(0, 2) == "vt")
-		{
-			std::istringstream v(str.substr(3));
-			Tools::Vec2f text;
-			float x, y;
-			v >> x; v >> y;
-			text = Tools::Vec2f(x, y);
-			textures.push_back(text);
-		}
-		else if (str.substr(0, 2) == "vn")
-		{
-			std::istringstream v(str.substr(3));
-			Tools::Vec3f norm;
-			float x, y, z;
-			v >> x; v >> y; v >> z;
-			norm = Tools::Vec3f(x, y, z);
-			normals.push_back(norm);
-		}
-		else if (str.substr(0, 2) == "f ")
-		{
-			dataTextures.resize(vertices.size() * 2);
-			dataNormals.resize(vertices.size() * 3);
-			break;
-		}
+	FILE* file = fopen(fPath, "r");
+	if (file == NULL) {
+		printf("Impossible to open the file !\n");
+		return false;
 	}
-
-	while (std::getline(file, str))
+	while (true) 
 	{
-		if (str.substr(0, 2) != "f ")
-		{
-			continue;
-		}
-		std::vector < std::string> subStrings;
-		splitString(str, ' ', subStrings);
-		std::vector < std::string> subSubStrings;
-		for (int i = 1; i < 4; i++)
-		{
-			splitString(subStrings[i], '/', subSubStrings);
-			processData(subSubStrings, indices, textures, normals, dataTextures, dataNormals);
-		}
 
+		char lineHeader[128];
+		int res = fscanf(file, "%s", lineHeader);
+		if (res == EOF)
+			break;
+
+		if (strcmp(lineHeader, "v") == 0)
+		{
+			glm::vec3 vertex;
+			fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
+			vertices.push_back(vertex);
+		}
+		else if (strcmp(lineHeader, "vt") == 0)
+		{
+			glm::vec2 uv;
+			fscanf(file, "%f %f\n", &uv.x, &uv.y);
+			textures.push_back(uv);
+		}
+		else if (strcmp(lineHeader, "vn")==0)
+		{
+			glm::vec3 normal;
+			fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
+			normals.push_back(normal);
+		}
+		else if (strcmp(lineHeader, "f")==0)
+		{
+			if (!resized)
+			{
+				dataTextures.resize(vertices.size() * 2);
+				dataNormals.resize(vertices.size() * 3);
+				resized = true;
+			}
+
+			std::vector <int> vert1;
+			vert1.resize(3);
+			std::vector <int> vert2;
+			vert2.resize(3);
+			std::vector <int> vert3;
+			vert3.resize(3);
+
+			fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vert1[0], &vert1[1], &vert1[2], &vert2[0], &vert2[1], &vert2[2], &vert3[0], &vert3[1], &vert3[2]);
+			processData(vert1, indices, textures, normals, dataTextures, dataNormals);
+			processData(vert2, indices, textures, normals, dataTextures, dataNormals);
+			processData(vert3, indices, textures, normals, dataTextures, dataNormals);
+
+		}
 	}
 
 	dataVertices.resize(vertices.size() * 3);
-	dataIndices.resize(indices.size());
+	
 
 	int vertexPointer = 0;
-	for (Tools::Vec3f vertex : vertices)
+	for (glm::vec3 vertex : vertices)
 	{
 		dataVertices[vertexPointer++] = vertex.x;
 		dataVertices[vertexPointer++] = vertex.y;
 		dataVertices[vertexPointer++] = vertex.z;
 	}
 
-	for (int i = 0; i < indices.size(); i++)
-	{
-		dataIndices[i] = indices[i];
-	}
-
-	return loadToVAO(dataVertices, dataIndices, dataTextures, dataNormals);
+	return loadToVAO(dataVertices, indices, dataTextures, dataNormals);
 }
 
 void Loader::storeDataInVAO(int attributePointer, int coordinateSize, std::vector<float>& data)
@@ -152,15 +144,15 @@ void splitString(std::string str, char delimiter, std::vector<std::string>& outS
 	}
 }
 
-void processData(std::vector<std::string> vertexData, std::vector<int>& indices, std::vector<Tools::Vec2f>& textures, std::vector<Tools::Vec3f>& normals,
+void processData(std::vector<int> vertexData, std::vector<int>& indices, std::vector<glm::vec2>& textures, std::vector<glm::vec3>& normals,
 	std::vector<float>& dataTextures, std::vector<float>& dataNormals)
 {
-	int currentVertexPointer = std::stoi(vertexData[0]) - 1;
+	int currentVertexPointer = vertexData[0] - 1; /*std::stoi(vertexData[0]) - 1;*/
 	indices.push_back(currentVertexPointer);
-	Tools::Vec2f curretntTex = textures[std::stoi(vertexData[1]) - 1];
+	glm::vec2 curretntTex = textures[vertexData[1] - 1];/*textures[std::stoi(vertexData[1]) - 1];*/
 	dataTextures[currentVertexPointer * 2] = curretntTex.x;
 	dataTextures[currentVertexPointer * 2 + 1] = 1 - curretntTex.y;
-	Tools::Vec3f currentNorm = normals[std::stoi(vertexData[2]) - 1];
+	glm::vec3 currentNorm = normals[vertexData[2] - 1]; /*normals[std::stoi(vertexData[2]) - 1];*/
 	dataNormals[currentVertexPointer * 3] = currentNorm.x;
 	dataNormals[currentVertexPointer * 3 + 1] = currentNorm.y;
 	dataNormals[currentVertexPointer * 3 + 2] = currentNorm.z;
