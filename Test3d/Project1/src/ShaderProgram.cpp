@@ -104,6 +104,8 @@ void ShaderProgram::getAllUniformLocations()
     location_ViewMatrix = getUniformLocation("view_matrix");
     location_LightPosition = getUniformLocation("light_position");
     location_LightColor = getUniformLocation("light_color");
+    location_ShineDumper = getUniformLocation("shineDumper");
+    location_Reflectivity = getUniformLocation("reflectivity");
 }
 
 void ShaderProgram::loadVec4(int location, float x, float y, float z, float alpha)
@@ -148,6 +150,12 @@ void ShaderProgram::loadLight(Light* light)
 {
     loadVec3f(location_LightPosition, light->getPosition());
     loadVec3f(location_LightColor, light->getColor());
+}
+
+void ShaderProgram::loadShineVariables(float dumper, float reflect)
+{
+    load1f(location_ShineDumper, dumper);
+    load1f(location_Reflectivity, reflect);
 }
 
 

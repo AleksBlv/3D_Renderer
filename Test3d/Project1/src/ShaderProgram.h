@@ -22,6 +22,8 @@ private:
 	int location_ViewMatrix;
 	int location_LightPosition;
 	int location_LightColor;
+	int location_ShineDumper;
+	int location_Reflectivity;
 public:
 	ShaderProgram();
 	void loadShaders(const GLchar* vPath, const GLchar* fPath);
@@ -43,5 +45,6 @@ public:
 	void loadProjectionMatrix(const GLfloat* projectionMatrix);
 	void loadViewMatrix(Camera* camera);
 	void loadLight(Light* light);
+	void loadShineVariables(float dumper, float reflect);
 };
 

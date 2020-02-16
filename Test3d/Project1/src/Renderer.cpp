@@ -38,6 +38,8 @@ void Renderer::render(Entity* entity, ShaderProgram* shader)
 	glm::mat4x4* transformationMatrix = createTransformationMatrix(entity->getPosition(), entity->getRotX(),
 		entity->getRotY(), entity->getRotZ(), entity->getScale());
 	shader->loadTransformationMatrix(glm::value_ptr(*transformationMatrix));
+	Texture* texture = entity->getModel()->getTexture();
+	shader->loadShineVariables(texture->getShineDumper(), texture->getReflectivity());
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->getEBOID());
 
